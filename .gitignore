@@ -5,3 +5,7 @@ __pycache__
 *.obj
 *.o
 build.txt
+bin
+vc140.*
+*.dblite
+.vscode

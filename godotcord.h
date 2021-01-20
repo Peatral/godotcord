@@ -1,18 +1,21 @@
 #ifndef GODOTCORD_H
 #define GODOTCORD_H
 
-#include "core/object.h"
-#include "scene/resources/texture.h"
-#include <string.h>
+#include <Godot.hpp>
+#include <Object.hpp>
+#include <Texture.hpp>
+#include <String.hpp>
 #include "discord-files/discord.h"
-#include "godotcord_activity.h"
-#include "godotcord_relationship.h"
-#include "godotcord_lobby.h"
+//#include "godotcord_activity.h"
+//#include "godotcord_relationship.h"
+//#include "godotcord_lobby.h"
 
-#include "godotcord_activity_manager.h"
+//#include "godotcord_activity_manager.h"
+
+using namespace godot;
 
 class Godotcord : public Object {
-    GDCLASS(Godotcord, Object)
+    GODOT_CLASS(Godotcord, Object)
 
 private:
 	discord::Core *_core{};
@@ -21,20 +24,18 @@ private:
 
 	void _init_discord();
 
-protected:
-	static void _bind_methods();
-
 public:
+	void _init() { };
+	static void _register_methods();
+
 	static Godotcord *singleton;
 	static Godotcord *get_singleton();
 
-	enum CreateFlags {
-		CreateFlags_DEFAULT = 0,
-		CreateFlags_NO_REQUIRE_DISCORD = 1,
-	};
+	static const int CreateFlags_DEFAULT = 0;
+	static const int CreateFlags_NO_REQUIRE_DISCORD = 1;
 
-    Error init(discord::ClientId clientId, CreateFlags createFlags);
-	void init_debug(discord::ClientId clientId, String id, CreateFlags createFlags);
+    void init(discord::ClientId clientId, int createFlags);
+	void init_debug(discord::ClientId clientId, String id, int createFlags);
 
 	void run_callbacks();
 
@@ -51,7 +52,5 @@ public:
     Godotcord();
 	~Godotcord();
 };
-
-VARIANT_ENUM_CAST(Godotcord::CreateFlags);
 
 #endif

@@ -1,9 +1,9 @@
 #include "godotcord.h"
-#include "godotcord_achievement_manager.h"
+/*#include "godotcord_achievement_manager.h"
 #include "godotcord_relationship_manager.h"
 #include "godotcord_store_manager.h"
 #include "godotcord_user_manager.h"
-#include "core/func_ref.h"
+#include "core/func_ref.h"*/
 
 Godotcord *Godotcord::singleton = NULL;
 
@@ -29,37 +29,33 @@ void Godotcord::run_callbacks() {
 	}
 }
 
-void Godotcord::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("init", "client_id", "createFlags"), &Godotcord::init);
-	ClassDB::bind_method(D_METHOD("init_debug", "client_id", "instance_id", "createFlags"), &Godotcord::init_debug);
-	ClassDB::bind_method(D_METHOD("run_callbacks"), &Godotcord::run_callbacks);
+void Godotcord::_register_methods() {
+    register_method("init", &Godotcord::init);
+	register_method("init_debug", &Godotcord::init_debug);
+	register_method("run_callbacks", &Godotcord::run_callbacks);
 
-	BIND_ENUM_CONSTANT(CreateFlags_DEFAULT);
-	BIND_ENUM_CONSTANT(CreateFlags_NO_REQUIRE_DISCORD);
+	//register_property("CreateFlags_DEFAULT", Godotcord::CreateFlags_DEFAULT, Godotcord::CreateFlags_DEFAULT);
+	//register_property("CreateFlags_NO_REQUIRE_DISCORD", Godotcord::CreateFlags_NO_REQUIRE_DISCORD, Godotcord::CreateFlags_NO_REQUIRE_DISCORD);
 
 }
 	
-Error Godotcord::init(discord::ClientId clientId, CreateFlags createFlags = CreateFlags::CreateFlags_DEFAULT) {
+void Godotcord::init(discord::ClientId clientId, int createFlags = Godotcord::CreateFlags_DEFAULT) {
 	discord::Result result = discord::Core::Create(clientId, createFlags, &_core);
 
-	ERR_FAIL_COND_V(result != discord::Result::Ok, ERR_CANT_CONNECT);
+	//ERR_FAIL_COND_V(result != discord::Result::Ok, ERR_CANT_CONNECT);
 
 	_init_discord();
-
-	return OK;
 }
 
-void Godotcord::init_debug(discord::ClientId clientId, String id, CreateFlags createFlags = CreateFlags::CreateFlags_DEFAULT) {
+void Godotcord::init_debug(discord::ClientId clientId, String id, int createFlags = Godotcord::CreateFlags_DEFAULT) {
 #ifdef _WIN32
-	_putenv_s("DISCORD_INSTANCE_ID", id.utf8());
+	_putenv_s("DISCORD_INSTANCE_ID", id.utf8().get_data());
 #else
 	setenv("DISCORD_INSTANCE_ID", id.utf8(), true);
 #endif
-	print_line(vformat("Set DISCORD_INSTANCE_ID to %s", id));
-	print_line(vformat("Read DISCORD_INSTANCE_ID is %s", getenv("DISCORD_INSTANCE_ID")));
 	discord::Result result = discord::Core::Create(clientId, createFlags, &_core);
 
-    ERR_FAIL_COND(result != discord::Result::Ok);
+    //ERR_FAIL_COND(result != discord::Result::Ok);
 
 	_init_discord();
 }
@@ -70,13 +66,13 @@ void Godotcord::_init_discord() {
 	_core->SetLogHook(discord::LogLevel::Info, [](discord::LogLevel level, const char *msg) {
 		switch (level) {
 			case discord::LogLevel::Warn:
-				print_line(vformat("[DiscordGameSDK][Warn] %s", msg));
+				Godot::print("[DiscordGameSDK][Warn]");
 				break;
 			case discord::LogLevel::Info:
-				print_line(vformat("[DiscordGameSDK][Info] %s", msg));
+				Godot::print("[DiscordGameSDK][Info]");
 				break;
 			case discord::LogLevel::Error:
-				print_error(vformat("[DiscordGameSDK][ERR] %s", msg));
+				Godot::print("[DiscordGameSDK][ERR]");
 				break;
 		}
 	});
@@ -85,11 +81,11 @@ void Godotcord::_init_discord() {
 		_route = String(p_route);
 	});
 
-	GodotcordAchievementManager::get_singleton()->init();
+	/*GodotcordAchievementManager::get_singleton()->init();
 	GodotcordActivityManager::get_singleton()->init();
 	GodotcordRelationshipManager::get_singleton()->init();
 	GodotcordStoreManager::get_singleton()->init();
-	GodotcordUserManager::get_singleton()->init();
+	GodotcordUserManager::get_singleton()->init();*/
 }
 
 void Godotcord::removeRouteEvent() {
