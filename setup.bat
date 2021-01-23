@@ -16,4 +16,4 @@ copy dgsdk\lib\x86\discord_game_sdk.dll.lib libpath\discord_game_sdk.32.dll.lib
 del discord_game_sdk.zip
 RMDIR /S /Q dgsdk
 
-PowerShell.exe -ExecutionPolicy Bypass -Command "& './finish_setup.ps1'"
+PowerShell.exe -ExecutionPolicy Bypass -Command "& './scripts/finish_setup.ps1'"
