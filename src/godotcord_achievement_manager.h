@@ -1,17 +1,18 @@
 #ifndef GODOTCORD_ACHIEVEMENT_MANAGER
 #define GODOTCORD_ACHIEVEMENT_MANAGER
 
-#include "core/object.h"
+#include <Godot.hpp>
+#include <Object.hpp>
+#include <String.hpp>
+
+using namespace godot;
 
 class GodotcordAchievementManager : public Object {
-	GDCLASS(GodotcordAchievementManager, Object)
-
-protected:
-	static void _bind_methods();
+	GODOT_CLASS(GodotcordAchievementManager, Object)
 
 public:
-	static GodotcordAchievementManager *singleton;
-	static GodotcordAchievementManager *get_singleton();
+	void _init() { };
+	static void _register_methods();
 
 	void set_user_achievement(int64_t p_achievement_id, int8_t p_percent);
 	void fetch_user_achievements(Object *p_object, StringName p_funcname);

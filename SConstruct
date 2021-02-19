@@ -7,7 +7,7 @@ sources = [
     "src/godotcord.cpp",
 #    "src/godotcord_network_peer.cpp",
 #    "src/godotcord_achievement_manager.cpp",
-#    "src/godotcord_activity_manager.cpp",
+    "src/godotcord_activity_manager.cpp",
 #    "src/godotcord_lobby_manager.cpp",
 #    "src/godotcord_image_manager.cpp",
 #    "src/godotcord_overlay_manager.cpp",

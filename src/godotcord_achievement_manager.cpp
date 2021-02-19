@@ -9,10 +9,10 @@ GodotcordAchievementManager* GodotcordAchievementManager::get_singleton() {
 	return GodotcordAchievementManager::singleton;
 }
 
-void GodotcordAchievementManager::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("set_user_achievement", "achievement_id", "percent_complete"), &GodotcordAchievementManager::set_user_achievement);
-	ClassDB::bind_method(D_METHOD("fetch_user_achievements", "object", "function_name"), &GodotcordAchievementManager::fetch_user_achievements);
-	ClassDB::bind_method(D_METHOD("get_user_achievements"), &GodotcordAchievementManager::get_user_achievements);
+void GodotcordAchievementManager::_register_methods() {
+	register_method("set_user_achievement", "achievement_id", "percent_complete", &GodotcordAchievementManager::set_user_achievement);
+	register_method("fetch_user_achievements", "object", "function_name", &GodotcordAchievementManager::fetch_user_achievements);
+	register_method("get_user_achievements", &GodotcordAchievementManager::get_user_achievements);
 }
 
 void GodotcordAchievementManager::set_user_achievement(int64_t p_achievement_id, int8_t p_percent) {

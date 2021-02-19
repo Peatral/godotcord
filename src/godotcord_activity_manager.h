@@ -1,18 +1,21 @@
 #ifndef GODOTCORD_ACTIVITY_MANAGER_H
 #define GODOTCORD_ACTIVITY_MANAGER_H
 
-#include "core/object.h"
-#include "godotcord.h"
+#include <Godot.hpp>
+#include <Object.hpp>
+#include <String.hpp>
+
+#include "godotcord_activity.h"
+
+using namespace godot;
 
 class GodotcordActivityManager : public Object {
-	GDCLASS(GodotcordActivityManager, Object);
-
-protected:
-	static void _bind_methods();
+	GODOT_CLASS(GodotcordActivityManager, Object);
 
 public:
-	static GodotcordActivityManager *singleton;
-	static GodotcordActivityManager *get_singleton();
+	void _init() { };
+	static void _register_methods();
+
 	void init();
 
 	void set_activity(Ref<GodotcordActivity> p_activity);

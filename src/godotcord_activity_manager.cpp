@@ -1,53 +1,49 @@
 #include "godotcord_activity_manager.h"
+#include "godotcord.h"
+#include <Dictionary.hpp>
 
-GodotcordActivityManager *GodotcordActivityManager::singleton = NULL;
+void GodotcordActivityManager::_register_methods() {
+	register_method("set_activity", &GodotcordActivityManager::set_activity);
+	register_method("clear_activity", &GodotcordActivityManager::clear_activity);
+	register_method("send_request_reply", &GodotcordActivityManager::send_request_reply);
+	register_method("send_invite", &GodotcordActivityManager::send_invite);
+	register_method("accept_invite", &GodotcordActivityManager::accept_invite);
 
-GodotcordActivityManager *GodotcordActivityManager::get_singleton() {
-	return GodotcordActivityManager::singleton;
-}
-
-void GodotcordActivityManager::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("set_activity", "activity"), &GodotcordActivityManager::set_activity);
-	ClassDB::bind_method(D_METHOD("clear_activity"), &GodotcordActivityManager::clear_activity);
-	ClassDB::bind_method(D_METHOD("send_request_reply", "user_id", "reply"), &GodotcordActivityManager::send_request_reply);
-	ClassDB::bind_method(D_METHOD("send_invite", "user_id", "action_type", "message"), &GodotcordActivityManager::send_invite);
-	ClassDB::bind_method(D_METHOD("accept_invite", "user_id"), &GodotcordActivityManager::accept_invite);
-
-	ADD_SIGNAL(MethodInfo("activity_join_request", PropertyInfo(Variant::STRING, "name"), PropertyInfo(Variant::INT, "id")));
-	ADD_SIGNAL(MethodInfo("activity_invite", PropertyInfo(Variant::INT, "type"), PropertyInfo(Variant::STRING, "name"), PropertyInfo(Variant::INT, "id"), PropertyInfo(Variant::DICTIONARY, "activity")));
-	ADD_SIGNAL(MethodInfo("activity_join", PropertyInfo(Variant::STRING, "secret")));
-	ADD_SIGNAL(MethodInfo("activity_spectate", PropertyInfo(Variant::STRING, "secret")));
+	register_signal("activity_join_request", "name", "id");
+	register_signal("activity_invite", "type", "name", "id", "activity");
+	register_signal("activity_join", "secret");
+	register_signal("activity_spectate", "secret");
 }
 
 void GodotcordActivityManager::set_activity(Ref<GodotcordActivity> p_activity) {
 	discord::Activity activity{};
 
 	if (p_activity->state != "") {
-		activity.SetState(p_activity->state.utf8());
+		activity.SetState(p_activity->state.utf8().get_data());
 	}
 
 	if (p_activity->details != "") {
-		activity.SetDetails(p_activity->details.utf8());
+		activity.SetDetails(p_activity->details.utf8().get_data());
 	}
 
 	if (p_activity->large_text != "") {
-		activity.GetAssets().SetLargeText(p_activity->large_text.utf8());
+		activity.GetAssets().SetLargeText(p_activity->large_text.utf8().get_data());
 	}
 
 	if (p_activity->large_image != "") {
-		activity.GetAssets().SetLargeImage(p_activity->large_image.utf8());
+		activity.GetAssets().SetLargeImage(p_activity->large_image.utf8().get_data());
 	}
 
 	if (p_activity->small_text != "") {
-		activity.GetAssets().SetSmallText(p_activity->small_text.utf8());
+		activity.GetAssets().SetSmallText(p_activity->small_text.utf8().get_data());
 	}
 
 	if (p_activity->small_image != "") {
-		activity.GetAssets().SetSmallImage(p_activity->small_image.utf8());
+		activity.GetAssets().SetSmallImage(p_activity->small_image.utf8().get_data());
 	}
 
 	if (p_activity->party_id != "") {
-		activity.GetParty().SetId(p_activity->party_id.utf8());
+		activity.GetParty().SetId(p_activity->party_id.utf8().get_data());
 	}
 
 	if (p_activity->party_max >= 0) {
@@ -59,15 +55,15 @@ void GodotcordActivityManager::set_activity(Ref<GodotcordActivity> p_activity) {
 	}
 
 	if (p_activity->match_secret != "") {
-		activity.GetSecrets().SetMatch(p_activity->match_secret.utf8());
+		activity.GetSecrets().SetMatch(p_activity->match_secret.utf8().get_data());
 	}
 
 	if (p_activity->join_secret != "") {
-		activity.GetSecrets().SetJoin(p_activity->join_secret.utf8());
+		activity.GetSecrets().SetJoin(p_activity->join_secret.utf8().get_data());
 	}
 
 	if (p_activity->spectate_secret != "") {
-		activity.GetSecrets().SetSpectate(p_activity->spectate_secret.utf8());
+		activity.GetSecrets().SetSpectate(p_activity->spectate_secret.utf8().get_data());
 	}
 
 	if (p_activity->start != 0) {
@@ -127,7 +123,6 @@ void GodotcordActivityManager::init() {
 
 GodotcordActivityManager::GodotcordActivityManager() {
 	ERR_FAIL_COND_MSG(singleton != NULL, "Only one instance of GodotcordActivityManager should exist")
-	singleton = this;
 }
 
 GodotcordActivityManager::~GodotcordActivityManager() {

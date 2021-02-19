@@ -5,12 +5,8 @@
 #include "godotcord_user_manager.h"
 #include "core/func_ref.h"*/
 
-Godotcord *Godotcord::singleton = NULL;
-
 Godotcord::Godotcord() {
 	_route = String("");
-
-	singleton = this;
 }
 
 Godotcord::~Godotcord() {

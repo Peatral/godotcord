@@ -1,11 +1,17 @@
 #ifndef GODOTCORD_ACTIVITY_H
 #define GODOTCORD_ACTIVITY_H
 
-#include "core/reference.h"
+#include <Godot.hpp>
+#include <Reference.hpp>
+#include <String.hpp>
+#include <Dictionary.hpp>
 #include "godotcord_utils.h"
+#include "discord-files/types.h"
+
+using namespace godot;
 
 class GodotcordActivity : public Reference {
-	GDCLASS(GodotcordActivity, Reference)
+	GODOT_CLASS(GodotcordActivity, Reference)
 
 public:
 	enum ActivityRequestReply {
@@ -21,29 +27,29 @@ public:
 
 protected:
 	static void _bind_methods() {
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, state, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, details, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, large_image, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, large_text, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, small_image, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, small_text, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, party_id, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, party_max, Variant::INT)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, party_current, Variant::INT)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, match_secret, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, join_secret, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, spectate_secret, Variant::STRING)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, start, Variant::INT)
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, end, Variant::INT)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, state)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, details)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, large_image)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, large_text)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, small_image)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, small_text)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, party_id)
+		ADD_GODOTCORD_PROPERTY_INT(GodotcordActivity, party_max)
+		ADD_GODOTCORD_PROPERTY_INT(GodotcordActivity, party_current)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, match_secret)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, join_secret)
+		ADD_GODOTCORD_PROPERTY_STRING(GodotcordActivity, spectate_secret)
+		ADD_GODOTCORD_PROPERTY_INT(GodotcordActivity, start)
+		ADD_GODOTCORD_PROPERTY_INT(GodotcordActivity, end)
 		
-		ADD_GODOTCORD_PROPERTY(GodotcordActivity, application_id, Variant::INT);
+		ADD_GODOTCORD_PROPERTY_INT(GodotcordActivity, application_id);
 
-		BIND_ENUM_CONSTANT(NO);
+		/*BIND_ENUM_CONSTANT(NO);
 		BIND_ENUM_CONSTANT(YES);
 		BIND_ENUM_CONSTANT(IGNORE);
 
 		BIND_ENUM_CONSTANT(JOIN);
-		BIND_ENUM_CONSTANT(SPECTATE);
+		BIND_ENUM_CONSTANT(SPECTATE);*/
 	}
 
 public:
@@ -80,26 +86,9 @@ public:
 	int end = 0;
 
 	int64_t application_id;
-
-	GET_SET_COMBO(state, String)
-	GET_SET_COMBO(details, String)
-	GET_SET_COMBO(large_image, String)
-	GET_SET_COMBO(large_text, String)
-	GET_SET_COMBO(small_image, String)
-	GET_SET_COMBO(small_text, String)
-	GET_SET_COMBO(party_id, String)
-	GET_SET_COMBO(party_max, int)
-	GET_SET_COMBO(party_current, int)
-	GET_SET_COMBO(match_secret, String)
-	GET_SET_COMBO(join_secret, String)
-	GET_SET_COMBO(spectate_secret, String)
-	GET_SET_COMBO(start, int)
-	GET_SET_COMBO(end, int)
-
-	GET_SET_COMBO(application_id, int64_t);
 };
 
-VARIANT_ENUM_CAST(GodotcordActivity::ActivityRequestReply);
-VARIANT_ENUM_CAST(GodotcordActivity::ActivityActionType);
+/*VARIANT_ENUM_CAST(GodotcordActivity::ActivityRequestReply);
+VARIANT_ENUM_CAST(GodotcordActivity::ActivityActionType);*/
 
 #endif
